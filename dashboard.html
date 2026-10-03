@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | AI CareerCopilot</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #050816,
+                    #111827,
+                    #312e81
+                );
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        nav {
+
+            height: 70px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            background:
+                rgba(5, 8, 22, 0.8);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+
+            font-size: 22px;
+
+            font-weight: bold;
+        }
+
+
+        .logo span {
+
+            color: #22d3ee;
+        }
+
+
+        .nav-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        #userName {
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+        }
+
+
+        .logout {
+
+            padding: 9px 16px;
+
+            border: 1px solid
+                rgba(255,255,255,0.15);
+
+            border-radius: 8px;
+
+            background:
+                rgba(255,255,255,0.05);
+
+            color: white;
+
+            cursor: pointer;
+        }
+
+
+        .logout:hover {
+
+            background: #ef4444;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+
+            width: 90%;
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding: 50px 0;
+        }
+
+
+        .welcome {
+
+            margin-bottom: 35px;
+        }
+
+
+        .welcome h1 {
+
+            font-size: 38px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .welcome h1 span {
+
+            color: #22d3ee;
+        }
+
+
+        .welcome p {
+
+            color: #94a3b8;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 40px;
+        }
+
+
+        .stat-card {
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            backdrop-filter: blur(15px);
+        }
+
+
+        .stat-icon {
+
+            font-size: 28px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .stat-title {
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .stat-value {
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           MODULES
+        ========================= */
+
+        .section-title {
+
+            font-size: 24px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .modules {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .module {
+
+            padding: 28px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            transition:
+                transform 0.25s,
+                border-color 0.25s;
+        }
+
+
+        .module:hover {
+
+            transform:
+                translateY(-5px);
+
+            border-color:
+                #22d3ee;
+        }
+
+
+        .module-icon {
+
+            font-size: 40px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .module h3 {
+
+            margin-bottom: 10px;
+        }
+
+
+        .module p {
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+        }
+
+
+        .module button {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 10px 16px;
+
+            color: white;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #06b6d4,
+                    #7c3aed
+                );
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 900px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .modules {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media(max-width: 600px) {
+
+            nav {
+
+                padding: 0 20px;
+            }
+
+
+            #userName {
+
+                display: none;
+            }
+
+
+            main {
+
+                width: 92%;
+
+                padding: 35px 0;
+            }
+
+
+            .welcome h1 {
+
+                font-size: 28px;
+            }
+
+
+            .stats,
+            .modules {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav>
+
+    <div class="logo">
+
+        🤖 AI
+        <span>CareerCopilot</span>
+
+    </div>
+
+
+    <div class="nav-right">
+
+        <span id="userName">
+            User
+        </span>
+
+        <button
+            class="logout"
+            onclick="logout()">
+
+            🚪 Logout
+
+        </button>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main>
+
+
+    <section class="welcome">
+
+        <h1>
+
+            Welcome,
+            <span id="welcomeName">
+                Career Explorer
+            </span>
+            👋
+
+        </h1>
+
+
+        <p>
+
+            Your AI-powered career journey starts here.
+            Analyze your resume, discover matching jobs,
+            identify skill gaps and prepare for interviews.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- =========================
+         STATISTICS
+    ========================= -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📄
+            </div>
+
+            <div class="stat-title">
+                Resume Score
+            </div>
+
+            <div
+                class="stat-value"
+                id="resumeScore">
+
+                --
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🎯
+            </div>
+
+            <div class="stat-title">
+                Job Match
+            </div>
+
+            <div
+                class="stat-value"
+                id="jobMatch">
+
+                --
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🧠
+            </div>
+
+            <div class="stat-title">
+                Skills Found
+            </div>
+
+            <div
+                class="stat-value"
+                id="skillsFound">
+
+                --
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🎤
+            </div>
+
+            <div class="stat-title">
+                Interview Score
+            </div>
+
+            <div
+                class="stat-value"
+                id="interviewScore">
+
+                --
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         CAREER MODULES
+    ========================= -->
+
+    <h2 class="section-title">
+
+        Career Intelligence
+
+    </h2>
+
+
+    <section class="modules">
+
+
+        <!-- Resume -->
+
+        <div class="module">
+
+            <div class="module-icon">
+                📄
+            </div>
+
+            <h3>
+                AI Resume Analyzer
+            </h3>
+
+            <p>
+                Upload your resume and get
+                an AI-powered resume score,
+                skills and improvement suggestions.
+            </p>
+
+            <button
+                onclick="openPage('resume.html')">
+
+                Analyze Resume →
+
+            </button>
+
+        </div>
+
+
+
+        <!-- Job -->
+
+        <div class="module">
+
+            <div class="module-icon">
+                🎯
+            </div>
+
+            <h3>
+                Job Matcher
+            </h3>
+
+            <p>
+                Find suitable job roles based
+                on your skills, education and
+                resume profile.
+            </p>
+
+            <button
+                onclick="openPage('job-matcher.html')">
+
+                Find Jobs →
+
+            </button>
+
+        </div>
+
+
+
+        <!-- Skill -->
+
+        <div class="module">
+
+            <div class="module-icon">
+                🧠
+            </div>
+
+            <h3>
+                Skill Gap Analyzer
+            </h3>
+
+            <p>
+                Discover missing skills and
+                understand what you need to
+                learn for your target career.
+            </p>
+
+            <button
+                onclick="openPage('skill-gap.html')">
+
+                Analyze Skills →
+
+            </button>
+
+        </div>
+
+
+
+        <!-- Roadmap -->
+
+        <div class="module">
+
+            <div class="module-icon">
+                🗺️
+            </div>
+
+            <h3>
+                Career Roadmap
+            </h3>
+
+            <p>
+                Get a personalized step-by-step
+                roadmap from your current skills
+                to your target career.
+            </p>
+
+            <button
+                onclick="openPage('roadmap.html')">
+
+                View Roadmap →
+
+            </button>
+
+        </div>
+
+
+
+        <!-- Interview -->
+
+        <div class="module">
+
+            <div class="module-icon">
+                🎤
+            </div>
+
+            <h3>
+                AI Interview
+            </h3>
+
+            <p>
+                Practice technical and HR
+                interview questions and
+                receive performance feedback.
+            </p>
+
+            <button
+                onclick="openPage('interview.html')">
+
+                Start Interview →
+
+            </button>
+
+        </div>
+
+
+
+        <!-- Reports -->
+
+        <div class="module">
+
+            <div class="module-icon">
+                📊
+            </div>
+
+            <h3>
+                Career Report
+            </h3>
+
+            <p>
+                View your complete career
+                analysis including resume,
+                skills, jobs and interview results.
+            </p>
+
+            <button
+                onclick="openPage('reports.html')">
+
+                View Report →
+
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+
+// =========================
+// CHECK LOGIN
+// =========================
+
+const token =
+    localStorage.getItem("token");
+
+
+const userData =
+    localStorage.getItem("user");
+
+
+if (!token) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// =========================
+// DISPLAY USER
+// =========================
+
+if (userData) {
+
+    const user =
+        JSON.parse(userData);
+
+
+    document.getElementById(
+        "userName"
+    ).innerText =
+        user.name;
+
+
+    document.getElementById(
+        "welcomeName"
+    ).innerText =
+        user.name;
+
+}
+
+
+// =========================
+// OPEN PAGE
+// =========================
+
+function openPage(page) {
+
+    window.location.href = page;
+
+}
+
+
+// =========================
+// LOGOUT
+// =========================
+
+function logout() {
+
+    localStorage.removeItem("token");
+
+    localStorage.removeItem("user");
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
