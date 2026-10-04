@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Job Matcher</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #050816,
+                    #111827,
+                    #312e81
+                );
+
+        }
+
+
+        nav {
+
+            height: 70px;
+
+            padding: 0 6%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background:
+                rgba(5,8,22,0.85);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.1);
+
+        }
+
+
+        .logo {
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+        }
+
+
+        .logo span {
+
+            color: #22d3ee;
+
+        }
+
+
+        .back-btn {
+
+            padding: 9px 16px;
+
+            border-radius: 8px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            background:
+                rgba(255,255,255,0.05);
+
+            color: white;
+
+            cursor: pointer;
+
+        }
+
+
+        main {
+
+            width: 90%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 50px 0;
+
+        }
+
+
+        h1 {
+
+            font-size: 38px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        h1 span {
+
+            color: #22d3ee;
+
+        }
+
+
+        .subtitle {
+
+            color: #94a3b8;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .card {
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        textarea {
+
+            width: 100%;
+
+            min-height: 220px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            border: 1px solid
+                rgba(255,255,255,0.15);
+
+            background:
+                rgba(0,0,0,0.3);
+
+            color: white;
+
+            resize: vertical;
+
+            outline: none;
+
+            font-size: 15px;
+
+        }
+
+
+        textarea:focus {
+
+            border-color:
+                #22d3ee;
+
+        }
+
+
+        .match-btn {
+
+            margin-top: 20px;
+
+            padding: 13px 25px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #06b6d4,
+                    #7c3aed
+                );
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .result {
+
+            display: none;
+
+        }
+
+
+        .match-score {
+
+            font-size: 55px;
+
+            font-weight: bold;
+
+            color: #22d3ee;
+
+            margin: 20px 0;
+
+        }
+
+
+        .skills {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 15px;
+
+        }
+
+
+        .skill {
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(34,211,238,0.12);
+
+            border:
+                1px solid
+                rgba(34,211,238,0.3);
+
+            color: #67e8f9;
+
+        }
+
+
+        .missing {
+
+            background:
+                rgba(248,113,113,0.12);
+
+            border-color:
+                rgba(248,113,113,0.3);
+
+            color: #fca5a5;
+
+        }
+
+
+        #message {
+
+            margin-top: 15px;
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <div class="logo">
+
+        🤖 AI
+        <span>CareerCopilot</span>
+
+    </div>
+
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()">
+
+        ← Dashboard
+
+    </button>
+
+</nav>
+
+
+
+<main>
+
+
+    <h1>
+
+        AI <span>Job Matcher</span>
+
+    </h1>
+
+
+    <p class="subtitle">
+
+        Compare your resume skills with
+        the requirements of a job.
+
+    </p>
+
+
+
+    <section class="card">
+
+        <h2>
+
+            💼 Job Description
+
+        </h2>
+
+
+        <br>
+
+
+        <textarea
+            id="jobDescription"
+            placeholder="Paste the job description here...
+
+Example:
+
+We are looking for a Java Full Stack Developer with skills in Java, Spring Boot, React, MongoDB, SQL and Git.">
+
+        </textarea>
+
+
+        <button
+            class="match-btn"
+            id="matchBtn">
+
+            🔍 Analyze Job Match
+
+        </button>
+
+
+        <div id="message"></div>
+
+    </section>
+
+
+
+    <section
+        class="card result"
+        id="result">
+
+
+        <h2>
+
+            📊 Job Match Result
+
+        </h2>
+
+
+        <div
+            class="match-score"
+            id="matchScore">
+
+            0%
+
+        </div>
+
+
+        <p>
+
+            Overall compatibility
+            with this job
+
+        </p>
+
+
+        <br>
+
+
+        <h3>
+
+            ✅ Matching Skills
+
+        </h3>
+
+
+        <div
+            class="skills"
+            id="matchingSkills">
+
+        </div>
+
+
+        <br>
+
+
+        <h3>
+
+            ⚠️ Skills To Learn
+
+        </h3>
+
+
+        <div
+            class="skills"
+            id="missingSkills">
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+
+
+const jobDescription =
+    document.getElementById(
+        "jobDescription"
+    );
+
+
+const matchBtn =
+    document.getElementById(
+        "matchBtn"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+const result =
+    document.getElementById(
+        "result"
+    );
+
+
+const matchScore =
+    document.getElementById(
+        "matchScore"
+    );
+
+
+const matchingSkills =
+    document.getElementById(
+        "matchingSkills"
+    );
+
+
+const missingSkills =
+    document.getElementById(
+        "missingSkills"
+    );
+
+
+
+const skillsList = [
+
+    "HTML",
+
+    "CSS",
+
+    "JavaScript",
+
+    "React",
+
+    "Node.js",
+
+    "Express",
+
+    "MongoDB",
+
+    "MySQL",
+
+    "Python",
+
+    "Java",
+
+    "C",
+
+    "C++",
+
+    "Git",
+
+    "GitHub",
+
+    "Machine Learning",
+
+    "Artificial Intelligence",
+
+    "SQL",
+
+    "Data Analysis",
+
+    "Power BI",
+
+    "Excel",
+
+    "Spring Boot"
+
+];
+
+
+
+matchBtn.addEventListener(
+    "click",
+    function() {
+
+
+        const jobText =
+            jobDescription.value
+                .toLowerCase();
+
+
+        if (!jobText.trim()) {
+
+            message.style.color =
+                "#f87171";
+
+            message.innerText =
+                "❌ Please paste a job description.";
+
+            return;
+
+        }
+
+
+        const resumeSkills =
+            JSON.parse(
+                localStorage.getItem(
+                    "resumeSkills"
+                ) || "[]"
+            );
+
+
+        const matching = [];
+
+        const missing = [];
+
+
+        skillsList.forEach(
+            function(skill) {
+
+                const existsInJob =
+                    jobText.includes(
+                        skill.toLowerCase()
+                    );
+
+
+                if (existsInJob) {
+
+                    if (
+                        resumeSkills
+                            .map(
+                                s =>
+                                s.toLowerCase()
+                            )
+                            .includes(
+                                skill.toLowerCase()
+                            )
+                    ) {
+
+                        matching.push(skill);
+
+                    } else {
+
+                        missing.push(skill);
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        const totalRequired =
+            matching.length +
+            missing.length;
+
+
+        let percentage = 0;
+
+
+        if (totalRequired > 0) {
+
+            percentage =
+                Math.round(
+                    (
+                        matching.length /
+                        totalRequired
+                    ) * 100
+                );
+
+        }
+
+
+        matchScore.innerText =
+            percentage + "%";
+
+
+        matchingSkills.innerHTML = "";
+
+        missingSkills.innerHTML = "";
+
+
+        matching.forEach(
+            function(skill) {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+                div.className =
+                    "skill";
+
+                div.innerText =
+                    "✓ " + skill;
+
+                matchingSkills.appendChild(
+                    div
+                );
+
+            }
+        );
+
+
+        missing.forEach(
+            function(skill) {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+                div.className =
+                    "skill missing";
+
+                div.innerText =
+                    "⚠ " + skill;
+
+                missingSkills.appendChild(
+                    div
+                );
+
+            }
+        );
+
+
+        result.style.display =
+            "block";
+
+
+        message.style.color =
+            "#22c55e";
+
+        message.innerText =
+            "✅ Job analysis completed.";
+
+    }
+);
+
+
+
+function goDashboard() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

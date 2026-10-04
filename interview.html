@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Interview Assistant</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #050816,
+                    #111827,
+                    #312e81
+                );
+
+        }
+
+        nav {
+
+            height: 70px;
+
+            padding: 0 6%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background:
+                rgba(5,8,22,0.85);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.1);
+
+        }
+
+        .logo {
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+        }
+
+        .logo span {
+
+            color: #22d3ee;
+
+        }
+
+        .back-btn {
+
+            padding: 9px 16px;
+
+            border-radius: 8px;
+
+            border: 1px solid
+                rgba(255,255,255,0.15);
+
+            background:
+                rgba(255,255,255,0.05);
+
+            color: white;
+
+            cursor: pointer;
+
+        }
+
+        main {
+
+            width: 90%;
+
+            max-width: 1000px;
+
+            margin: auto;
+
+            padding: 50px 0;
+
+        }
+
+        h1 {
+
+            font-size: 38px;
+
+            margin-bottom: 10px;
+
+        }
+
+        h1 span {
+
+            color: #22d3ee;
+
+        }
+
+        .subtitle {
+
+            color: #94a3b8;
+
+            margin-bottom: 30px;
+
+        }
+
+        .card {
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            margin-bottom: 25px;
+
+        }
+
+        select {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            border: 1px solid
+                rgba(255,255,255,0.15);
+
+            background: #111827;
+
+            color: white;
+
+            font-size: 15px;
+
+            outline: none;
+
+        }
+
+        button {
+
+            margin-top: 18px;
+
+            padding: 13px 22px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #06b6d4,
+                    #7c3aed
+                );
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+        .interview {
+
+            display: none;
+
+        }
+
+        .question {
+
+            margin: 20px 0;
+
+            padding: 20px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(34,211,238,0.08);
+
+            border:
+                1px solid
+                rgba(34,211,238,0.2);
+
+        }
+
+        .question h2 {
+
+            line-height: 1.5;
+
+        }
+
+        textarea {
+
+            width: 100%;
+
+            min-height: 180px;
+
+            margin-top: 15px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            background:
+                rgba(0,0,0,0.3);
+
+            color: white;
+
+            resize: vertical;
+
+            outline: none;
+
+            font-size: 15px;
+
+        }
+
+        .feedback {
+
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(34,197,94,0.08);
+
+            border:
+                1px solid
+                rgba(34,197,94,0.25);
+
+        }
+
+        .score {
+
+            font-size: 45px;
+
+            font-weight: bold;
+
+            color: #22d3ee;
+
+            margin: 15px 0;
+
+        }
+
+        .feedback p {
+
+            color: #cbd5e1;
+
+            line-height: 1.7;
+
+        }
+
+        .question-count {
+
+            color: #94a3b8;
+
+            margin-bottom: 15px;
+
+        }
+
+        .error {
+
+            color: #f87171;
+
+            margin-top: 15px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <div class="logo">
+
+        🤖 AI
+        <span>CareerCopilot</span>
+
+    </div>
+
+
+    <button
+        class="back-btn"
+        onclick="goDashboard()">
+
+        ← Dashboard
+
+    </button>
+
+</nav>
+
+
+<main>
+
+
+    <h1>
+
+        🎤 AI <span>Interview Assistant</span>
+
+    </h1>
+
+
+    <p class="subtitle">
+
+        Practice technical interview questions
+        for your target career.
+
+    </p>
+
+
+    <!-- ROLE SELECTION -->
+
+    <section class="card">
+
+        <h2>
+
+            🎯 Select Job Role
+
+        </h2>
+
+        <br>
+
+
+        <select id="role">
+
+            <option value="java">
+
+                Java Full Stack Developer
+
+            </option>
+
+            <option value="frontend">
+
+                Frontend Developer
+
+            </option>
+
+            <option value="python">
+
+                Python Developer
+
+            </option>
+
+            <option value="aiml">
+
+                AI / ML Engineer
+
+            </option>
+
+            <option value="data">
+
+                Data Analyst
+
+            </option>
+
+        </select>
+
+
+        <button id="startBtn">
+
+            🚀 Start Interview
+
+        </button>
+
+
+        <div
+            id="error"
+            class="error">
+
+        </div>
+
+    </section>
+
+
+    <!-- INTERVIEW -->
+
+    <section
+        class="card interview"
+        id="interview">
+
+
+        <div
+            class="question-count"
+            id="questionCount">
+
+        </div>
+
+
+        <div class="question">
+
+            <h2 id="question">
+
+            </h2>
+
+        </div>
+
+
+        <textarea
+            id="answer"
+            placeholder="Type your answer here...">
+
+        </textarea>
+
+
+        <button id="submitBtn">
+
+            ✅ Submit Answer
+
+        </button>
+
+
+        <div
+            class="feedback"
+            id="feedback">
+
+            <h2>
+
+                📊 Interview Feedback
+
+            </h2>
+
+
+            <div
+                class="score"
+                id="score">
+
+                0/10
+
+            </div>
+
+
+            <p id="feedbackText">
+
+            </p>
+
+
+            <button
+                id="nextBtn">
+
+                ➡️ Next Question
+
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<script>
+
+
+const role =
+    document.getElementById(
+        "role"
+    );
+
+
+const startBtn =
+    document.getElementById(
+        "startBtn"
+    );
+
+
+const interview =
+    document.getElementById(
+        "interview"
+    );
+
+
+const question =
+    document.getElementById(
+        "question"
+    );
+
+
+const answer =
+    document.getElementById(
+        "answer"
+    );
+
+
+const submitBtn =
+    document.getElementById(
+        "submitBtn"
+    );
+
+
+const nextBtn =
+    document.getElementById(
+        "nextBtn"
+    );
+
+
+const feedback =
+    document.getElementById(
+        "feedback"
+    );
+
+
+const score =
+    document.getElementById(
+        "score"
+    );
+
+
+const feedbackText =
+    document.getElementById(
+        "feedbackText"
+    );
+
+
+const questionCount =
+    document.getElementById(
+        "questionCount"
+    );
+
+
+const error =
+    document.getElementById(
+        "error"
+    );
+
+
+
+const questions = {
+
+
+    java: [
+
+        "What is OOP in Java? Explain its four main principles.",
+
+        "What is the difference between an interface and an abstract class in Java?",
+
+        "What is Spring Boot and why is it used?",
+
+        "What is REST API? Explain how it works.",
+
+        "What is the difference between SQL and MongoDB?"
+
+    ],
+
+
+    frontend: [
+
+        "What is the difference between HTML, CSS and JavaScript?",
+
+        "What is the DOM in JavaScript?",
+
+        "What are React components?",
+
+        "What is responsive web design?",
+
+        "How do you call an API from a frontend application?"
+
+    ],
+
+
+    python: [
+
+        "What are the main features of Python?",
+
+        "What is the difference between a list and a tuple?",
+
+        "What is OOP in Python?",
+
+        "What is Flask?",
+
+        "How can Python connect to a database?"
+
+    ],
+
+
+    aiml: [
+
+        "What is Machine Learning?",
+
+        "What is the difference between supervised and unsupervised learning?",
+
+        "What is overfitting?",
+
+        "Why is data preprocessing important?",
+
+        "What is the difference between classification and regression?"
+
+    ],
+
+
+    data: [
+
+        "What is data analysis?",
+
+        "What is the difference between mean, median and mode?",
+
+        "What is SQL and why is it important for data analysts?",
+
+        "What is a pivot table in Excel?",
+
+        "What is data visualization?"
+
+    ]
+
+};
+
+
+
+let currentQuestions = [];
+
+let currentIndex = 0;
+
+
+
+startBtn.addEventListener(
+    "click",
+    function() {
+
+
+        currentQuestions =
+            questions[role.value];
+
+
+        currentIndex = 0;
+
+
+        interview.style.display =
+            "block";
+
+
+        showQuestion();
+
+
+        interview.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+);
+
+
+
+function showQuestion() {
+
+
+    question.innerText =
+        currentQuestions[
+            currentIndex
+        ];
+
+
+    questionCount.innerText =
+        "Question " +
+        (currentIndex + 1) +
+        " of " +
+        currentQuestions.length;
+
+
+    answer.value = "";
+
+
+    feedback.style.display =
+        "none";
+
+
+    submitBtn.style.display =
+        "inline-block";
+
+}
+
+
+
+submitBtn.addEventListener(
+    "click",
+    function() {
+
+
+        const userAnswer =
+            answer.value.trim();
+
+
+        if (!userAnswer) {
+
+            error.innerText =
+                "Please write your answer first.";
+
+            return;
+
+        }
+
+
+        error.innerText =
+            "";
+
+
+        const words =
+            userAnswer
+                .split(/\s+/)
+                .filter(Boolean)
+                .length;
+
+
+        let calculatedScore = 0;
+
+
+        if (words >= 80) {
+
+            calculatedScore = 9;
+
+        }
+
+        else if (words >= 50) {
+
+            calculatedScore = 8;
+
+        }
+
+        else if (words >= 30) {
+
+            calculatedScore = 7;
+
+        }
+
+        else if (words >= 20) {
+
+            calculatedScore = 6;
+
+        }
+
+        else if (words >= 10) {
+
+            calculatedScore = 4;
+
+        }
+
+        else {
+
+            calculatedScore = 2;
+
+        }
+
+
+        score.innerText =
+            calculatedScore +
+            "/10";
+
+
+        if (calculatedScore >= 8) {
+
+            feedbackText.innerText =
+                "Excellent answer length. Try to include a practical example and explain the concept clearly.";
+
+        }
+
+        else if (calculatedScore >= 6) {
+
+            feedbackText.innerText =
+                "Good attempt. Add more technical details, examples and real-world use cases.";
+
+        }
+
+        else {
+
+            feedbackText.innerText =
+                "Your answer is too short. Explain the concept step-by-step and include an example.";
+
+        }
+
+
+        feedback.style.display =
+            "block";
+
+
+        submitBtn.style.display =
+            "none";
+
+    }
+);
+
+
+
+nextBtn.addEventListener(
+    "click",
+    function() {
+
+
+        if (
+            currentIndex <
+            currentQuestions.length - 1
+        ) {
+
+            currentIndex++;
+
+            showQuestion();
+
+        }
+
+        else {
+
+            question.innerText =
+                "🎉 Interview Completed!";
+
+
+            questionCount.innerText =
+                "All questions completed";
+
+
+            answer.style.display =
+                "none";
+
+
+            submitBtn.style.display =
+                "none";
+
+
+            feedback.style.display =
+                "block";
+
+
+            score.innerText =
+                "Completed";
+
+
+            feedbackText.innerText =
+                "Great work! Review your answers and practice the topics where you need improvement.";
+
+            nextBtn.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+
+function goDashboard() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
